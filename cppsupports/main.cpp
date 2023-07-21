@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <unistd.h>
-
+#include <iostream>
 #include "videodecoder.h"
 
 /* H264 source data,  I frame */
