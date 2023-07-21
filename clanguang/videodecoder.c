@@ -15,7 +15,8 @@ struct AVFrame *pFrameYUVDecoder = NULL;
  
 int ffmpeg_init_video_decoder(AVCodecParameters *codecParameters)
 {
-    if (!codecParameters) {
+    if (!codecParameters) 
+    {
         CPrintf("Source codec context is NULL.");   //CPrintf需替换为printf
         return -1;
     }
@@ -23,26 +24,30 @@ int ffmpeg_init_video_decoder(AVCodecParameters *codecParameters)
     avcodec_register_all();
     
     pAVCodecDecoder = avcodec_find_decoder(codecParameters->codec_id);
-    if (!pAVCodecDecoder) {
+    if (!pAVCodecDecoder) 
+    {
         CPrintf("Can not find codec:%d\n", codecParameters->codec_id);
         return -2;
     }
     
     pAVCodecCtxDecoder = avcodec_alloc_context3(pAVCodecDecoder);
-    if (!pAVCodecCtxDecoder) {
+    if (!pAVCodecCtxDecoder) 
+    {
         CPrintf("Failed to alloc codec context.");
         ffmpeg_release_video_decoder();
         return -3;
     }
     
-    if (avcodec_parameters_to_context(pAVCodecCtxDecoder, codecParameters) < 0) {
+    if (avcodec_parameters_to_context(pAVCodecCtxDecoder, codecParameters) < 0) 
+    {
         CPrintf("Failed to copy avcodec parameters to codec context.");
         ffmpeg_release_video_decoder();
         return -3;
     }
  
     
-    if (avcodec_open2(pAVCodecCtxDecoder, pAVCodecDecoder, NULL) < 0){
+    if (avcodec_open2(pAVCodecCtxDecoder, pAVCodecDecoder, NULL) < 0)
+    {
         CPrintf("Failed to open h264 decoder");
         ffmpeg_release_video_decoder();
         return -4;
@@ -60,19 +65,22 @@ int ffmpeg_init_h264_decoder()
 {
     avcodec_register_all();
     AVCodec *pAVCodec = avcodec_find_decoder(AV_CODEC_ID_H264);
-    if (!pAVCodec){
+    if (nullptr == pAVCodec)
+    {
         CPrintf("can not find H264 codec\n");
         return -1;
     }
  
     AVCodecContext *pAVCodecCtx = avcodec_alloc_context3(pAVCodec);
-    if (pAVCodecCtx == NULL) {
+    if (nullptr == pAVCodecCtx) 
+    {
         CPrintf("Could not alloc video context!\n");
         return -2;
     }
     
     AVCodecParameters *codecParameters = avcodec_parameters_alloc();
-    if (avcodec_parameters_from_context(codecParameters, pAVCodecCtx) < 0) {
+    if (avcodec_parameters_from_context(codecParameters, pAVCodecCtx) < 0) 
+    {
         CPrintf("Failed to copy avcodec parameters from codec context.");
         avcodec_parameters_free(&codecParameters);
         avcodec_free_context(&pAVCodecCtx);

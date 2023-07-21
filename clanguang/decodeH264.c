@@ -16,14 +16,18 @@ int g_paramBuf[8] = {0};
 char g_inputData[1*1024*1024] = {0};
 char g_ouputData[4*1024*1024] = {0};
 
-
+/***************************************************
+ * name:read_raw_data
+****************************************************/
 int read_raw_data(char *path, char *data, int maxBuf)
 {
     FILE *fp = NULL;
     int len = 0;
-
-    fp = fopen(path, "r");
-
+    if(NULL !=path)
+    {
+        fp = fopen(path, "r");
+    }
+  
     if (NULL != fp)
     {   
         memset(data, 0x0, maxBuf);
@@ -34,7 +38,9 @@ int read_raw_data(char *path, char *data, int maxBuf)
     return len;
 }
 
-
+/***************************************************
+ * name:write_raw_data_to_file
+****************************************************/
 int write_raw_data_to_file(char *path, char *data, int dataLen)
 {
     FILE *fp = NULL;
@@ -44,10 +50,14 @@ int write_raw_data_to_file(char *path, char *data, int dataLen)
 
     if (NULL == data || 0 == dataLen)
     {
-        printf("para error return\n");
+        printf("write_raw_data_to_file para error return\n");
         return 0;
     }
-
+    if(NULL != path)
+    {
+        printf("write_raw_data_to_file path IS NULL\n");
+        return 0;     
+    }
     if (access(path, F_OK) == 0)
     {
         remove(path);
